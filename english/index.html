@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🔤 ABC 英文小探險家 — 幼兒字母與單字啟蒙</title>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2228%22 fill=%22%23FF6B8B%22/><text y=%2275%22 x=%2222%22 font-size=%2272%22 font-weight=%22bold%22 fill=%22white%22 font-family=%22sans-serif, system-ui%22>A</text></svg>">
+
+    <meta name="description" content="專為幼兒設計的英文字母與單字啟蒙遊戲（ABC 認字母、單字配對、字母順序）">
+    <meta name="theme-color" content="#FF6B8B">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <canvas id="confetti-canvas"></canvas>
+
+        <!-- Header Navigation Bar -->
+        <header class="app-header">
+            <div class="brand-title" id="btn-brand-title">
+                <span>🔤</span> ABC 英文小探險家
+            </div>
+            <div class="header-controls">
+                <div class="star-badge-btn" title="累積獲得星星">⭐ <span id="header-total-stars">0</span> 顆</div>
+                <button class="icon-btn" id="btn-sound-toggle" title="音效設定" aria-label="音效設定">🔊</button>
+                <button class="icon-btn" id="btn-parent-settings" title="家長設定" aria-label="家長設定">⚙️</button>
+            </div>
+        </header>
+
+        <!-- VIEW 1: HOME SCREEN -->
+        <main class="screen-view active" id="view-home">
+            <div class="home-hero">
+                <div class="home-logo">🔤</div>
+                <h1 class="home-title">今天想學什麼？</h1>
+                <p class="home-subtitle">學習 A to Z 字母與英文字母單字！</p>
+            </div>
+
+            <div class="mode-grid">
+                <div class="mode-card count" data-mode="letter">
+                    <span class="mode-icon">🅰️</span>
+                    <div class="mode-info">
+                        <div class="mode-name">認字母</div>
+                        <div class="mode-desc">認識 A to Z 字母</div>
+                    </div>
+                </div>
+
+                <div class="mode-card add" data-mode="word">
+                    <span class="mode-icon">🍎</span>
+                    <div class="mode-info">
+                        <div class="mode-name">單字配對</div>
+                        <div class="mode-desc">Apple 🍎 Ball ⚽ Bear 🐻</div>
+                    </div>
+                </div>
+
+                <div class="mode-card sub" data-mode="order">
+                    <span class="mode-icon">🔡</span>
+                    <div class="mode-info">
+                        <div class="mode-name">字母順序</div>
+                        <div class="mode-desc">A B C 猜下一個</div>
+                    </div>
+                </div>
+
+                <div class="mode-card challenge" data-mode="challenge">
+                    <span class="mode-icon">🚀</span>
+                    <div class="mode-info">
+                        <div class="mode-name">ABC 大冒險</div>
+                        <div class="mode-desc">綜合英文挑戰</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- VIEW 2: GAME SCREEN -->
+        <main class="screen-view" id="view-game">
+            <div class="game-progress-bar">
+                <div class="progress-text" id="progress-text">第 1 / 10 題</div>
+                <div class="score-badge" id="score-stars-text">⭐ 0</div>
+            </div>
+
+            <div class="visual-container" id="visual-container">
+            </div>
+
+            <div class="equation-text" id="equation-text">
+                哪個是字母 A？
+            </div>
+
+            <p style="font-size: 1.4rem; color: var(--text-muted); font-weight: 700; margin-bottom: 24px;" id="sub-prompt-text">
+                A is for Apple 🍎
+            </p>
+
+            <div class="choices-container" id="choices-container">
+            </div>
+
+            <div class="feedback-banner" id="feedback-banner">
+                <span id="feedback-text">🎉 答對啦！</span>
+            </div>
+        </main>
+
+        <!-- VIEW 3: RESULT SCREEN -->
+        <main class="screen-view" id="view-result">
+            <div class="result-card">
+                <h2 class="result-title">🎉 冒險完成！</h2>
+                <div class="result-stars" id="result-stars">⭐⭐⭐⭐⭐</div>
+                <div class="result-score" id="result-score">答對 10 / 10 題</div>
+                <div class="result-message" id="result-message">Great Job! You are an ABC Master!</div>
+
+                <p style="font-size: 1.25rem; font-weight: 800; color: #D9480F; margin: 12px 0;" id="result-total-stars-text">
+                    ⭐ 總共累積：0 顆星
+                </p>
+
+                <div class="result-actions">
+                    <button class="btn-primary" id="btn-replay">再玩一次</button>
+                    <button class="btn-secondary" id="btn-home">回到首頁</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- PARENT SETTINGS MODAL -->
+    <div class="modal-overlay" id="modal-parent-settings">
+        <div class="modal-card">
+            <div class="modal-toast" id="modal-toast">✅ 已成功儲存設定！</div>
+
+            <div class="modal-header">
+                <h3 class="modal-title">⚙️ 家長設定 (Parent Settings)</h3>
+                <button class="icon-btn" id="btn-close-modal" aria-label="關閉設定">✖</button>
+            </div>
+
+            <!-- Current Settings Summary Card -->
+            <div class="settings-summary-card">
+                <div class="settings-summary-item">
+                    🎯 範圍：<span class="settings-summary-value" id="summary-range-text">A–Z (全26個)</span>
+                </div>
+                <div class="settings-summary-item">
+                    📝 題數：<span class="settings-summary-value" id="summary-length-text">10 題</span>
+                </div>
+            </div>
+
+            <div class="modal-group">
+                <label class="modal-label">🎯 字母範圍 (Letter Range)</label>
+                <div class="segmented-control" id="segment-range">
+                    <button data-value="10"><span class="check-icon">✓</span> A–J (前10個)</button>
+                    <button data-value="26" class="active"><span class="check-icon">✓</span> A–Z (全部)</button>
+                </div>
+            </div>
+
+            <div class="modal-group">
+                <label class="modal-label">🔊 發音語速 (Speech Speed)</label>
+                <div class="segmented-control" id="segment-speed">
+                    <button data-value="0.8"><span class="check-icon">✓</span> 標準 (0.8x)</button>
+                    <button data-value="0.65" class="active"><span class="check-icon">✓</span> 幼兒 (0.65x)</button>
+                    <button data-value="0.5"><span class="check-icon">✓</span> 慢速 (0.5x)</button>
+                </div>
+            </div>
+
+            <div class="modal-group">
+                <label class="modal-label">📝 每局題數 (Questions per Round)</label>
+                <div class="segmented-control" id="segment-length">
+                    <button data-value="5"><span class="check-icon">✓</span> 5 題</button>
+                    <button data-value="10" class="active"><span class="check-icon">✓</span> 10 題</button>
+                    <button data-value="20"><span class="check-icon">✓</span> 20 題</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/letters.js?v=1.0.2"></script>
+    <script src="js/difficulty.js?v=1.0.2"></script>
+    <script src="js/question-engine.js?v=1.0.2"></script>
+    <script src="js/audio.js?v=1.0.2"></script>
+    <script src="js/storage.js?v=1.0.2"></script>
+    <script src="js/game.js?v=1.0.2"></script>
+    <script src="js/app.js?v=1.0.2"></script>
+</body>
+</html>

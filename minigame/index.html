@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🎮 數學小遊戲 — 小學堂兒童互動遊戲</title>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2228%22 fill=%22%23FF6B81%22/><text y=%2275%22 x=%2218%22 font-size=%2270%22 font-weight=%22bold%22 fill=%22white%22 font-family=%22sans-serif, system-ui%22>🎮</text></svg>">
+
+    <meta name="description" content="專為5歲幼兒設計的數學互動小遊戲：接水果、餵怪獸、寶箱密碼，讓學習成為遊戲！">
+    <meta name="theme-color" content="#FF6B81">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+
+    <!-- Mini Game Styles -->
+    <link rel="stylesheet" href="css/minigame.css">
+</head>
+<body>
+
+    <div class="minigame-app">
+        <!-- Canvas for Confetti -->
+        <canvas id="confetti-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:99;"></canvas>
+
+        <!-- Header Bar -->
+        <header class="mg-header">
+            <a href="../index.html" class="mg-btn-back">
+                <span>🏠</span> 返回首頁
+            </a>
+            <div class="mg-header-right">
+                <div class="mg-star-badge">⭐ <span id="header-total-stars">0</span> 顆</div>
+            </div>
+        </header>
+
+        <!-- VIEW 1: MINI GAME HUB -->
+        <main class="mg-view active" id="view-hub">
+            <div class="hub-title-box">
+                <h1 class="hub-title">🎮 數學小遊戲</h1>
+                <p class="hub-subtitle">選擇一個你最想玩的冒險小遊戲吧！</p>
+            </div>
+
+            <div class="game-cards-grid">
+                <div class="game-card fruit" data-game="catch_fruit">
+                    <div class="game-card-icon">🍎</div>
+                    <h2 class="game-card-title">接水果 (Catch Fruit)</h2>
+                    <p class="game-card-desc">控制籃子接住正確數量的水果！</p>
+                    <button class="game-card-btn">開始玩 ➔</button>
+                </div>
+
+                <div class="game-card monster" data-game="feed_monster">
+                    <div class="game-card-icon">🐲</div>
+                    <h2 class="game-card-title">餵怪獸 (Feed Monster)</h2>
+                    <p class="game-card-desc">把好吃的莓果拖進可愛怪獸的嘴巴！</p>
+                    <button class="game-card-btn">開始玩 ➔</button>
+                </div>
+
+                <div class="game-card treasure" data-game="treasure_box">
+                    <div class="game-card-icon">🔐</div>
+                    <h2 class="game-card-title">寶箱密碼 (Treasure Box)</h2>
+                    <p class="game-card-desc">解開密碼鎖，打開海盜神秘寶箱！</p>
+                    <button class="game-card-btn">開始玩 ➔</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- VIEW 2: GAME STAGE -->
+        <main class="mg-view" id="view-game-stage">
+            <div id="stage-container" style="width: 100%; height: 100%; position: relative;">
+                <!-- Dynamic Game Renderer -->
+            </div>
+        </main>
+
+        <!-- VIEW 3: SESSION RESULT -->
+        <main class="mg-view" id="view-result">
+            <div class="mg-result-card">
+                <h2 class="mg-result-title">🎉 冒險挑戰成功！</h2>
+                <div class="mg-result-stars" id="result-stars">⭐⭐⭐⭐⭐</div>
+                <p style="font-size: 1.25rem; font-weight: 800; color: #1E293B; margin: 12px 0;" id="result-message">
+                    太棒了！獲得 5 顆星！
+                </p>
+                <div class="mg-result-actions">
+                    <button class="mg-btn-primary" id="btn-result-replay">再玩一次 🔄</button>
+                    <button class="mg-btn-secondary" id="btn-result-hub">返回大廳 🎮</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- External Shared Modules (Zero Breaking Changes) -->
+    <script src="../js/audio.js"></script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/question-engine.js"></script>
+
+    <!-- Mini Game Internal Modules -->
+    <script src="js/game-adapter.js"></script>
+    <script src="js/minigame-engine.js"></script>
+    <script src="js/catch-fruit.js"></script>
+    <script src="js/feed-monster.js"></script>
+    <script src="js/treasure-box.js"></script>
+    <script src="js/minigame-hub.js"></script>
+</body>
+</html>
